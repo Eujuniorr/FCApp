@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feed - FC Pacajus</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    /* Header fixo */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 10;
+    }
+
+    .header img {
+      width: 120px;
+    }
+
+    .back-button {
+      background-color: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .feed-container {
+      width: 100%;
+      max-width: 800px;
+      padding: 80px 20px 20px; /* Espaço para o header fixo */
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-top: 60px;
+    }
+
+    .feed-post {
+      background-color: #fafafa;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+
+    /* Barra de navegação fixa */
+    .nav-bar {
+      display: flex;
+      justify-content: space-around;
+      background-color: #fff;
+      padding: 15px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+
+    .nav-bar button {
+      background-color: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .central-button {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #007BFF;
+      color: white;
+      border-radius: 50%;
+      padding: 15px;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header fixo com botão de voltar -->
+  <div class="header">
+    <button class="back-button" onclick="voltarFeed()">←</button>
+    <img src="logo.png" alt="FC Pacajus">
+    <div></div>
+  </div>
+
+  <!-- Feed de posts -->
+  <div class="feed-container">
+    <h2>Feed do FC Pacajus</h2>
+
+    <div class="feed-post">
+      <p>Post 1: Evento de futsal acontecendo em breve! Marque na sua agenda.</p>
+    </div>
+    
+    <div class="feed-post">
+      <p>Post 2: Jogo do time de campo foi um sucesso. Confira os melhores momentos!</p>
+    </div>
+
+    <!-- Mais posts podem ser adicionados aqui -->
+  </div>
+
+  <!-- Barra de navegação fixa -->
+  <div class="nav-bar">
+    <button onclick="irHome()">🏠</button>
+    <button onclick="irBuscar()">🔍</button>
+    <button onclick="tirarFoto()">📸</button> <!-- Botão central para postar/tirar foto -->
+    <button onclick="irConvocacoes()">📅</button>
+    <button onclick="irPerfil()">👤</button>
+  </div>
+
+  <!-- Botão central para postar -->
+  <button class="central-button" onclick="tirarFoto()">+</button>
+
+  <script>
+    // Função para voltar ao feed (pode ser redirecionamento)
+    function voltarFeed() {
+      window.location.href = "home.html";
+    }
+
+    // Funções de navegação dos botões
+    function irHome() {
+      window.location.href = "home.html";
+    }
+
+    function irBuscar() {
+      window.location.href = "buscar.html";
+    }
+
+    function tirarFoto() {
+      alert("Ação de postar foto ou tirar foto será implementada.");
+    }
+
+    function irConvocacoes() {
+      window.location.href = "convocacao.html";
+    }
+
+    function irPerfil() {
+      window.location.href = "perfil.html";
+    }
+  </script>
+
+</body>
+</html>

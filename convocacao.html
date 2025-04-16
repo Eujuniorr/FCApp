@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convocação - FC Pacajus</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #fff;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+    }
+
+    header img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header h1 {
+      font-size: 20px;
+      color: #333;
+    }
+
+    .convocacao-container {
+      padding: 20px;
+    }
+
+    .convocado {
+      background-color: #fff;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .convocado h2 {
+      margin-bottom: 10px;
+      color: #007BFF;
+    }
+
+    .convocado p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid #ddd;
+      padding: 10px 0;
+      z-index: 999;
+    }
+
+    .bottom-bar img {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="Logo FC Pacajus">
+    <h1>Convocação Oficial</h1>
+  </header>
+
+  <div class="convocacao-container" id="convocacaoContainer">
+    <!-- Lista de convocados será inserida aqui -->
+  </div>
+
+  <div class="bottom-bar">
+    <img src="home.png" alt="Início" onclick="irHome()" />
+    <img src="search.png" alt="Buscar" onclick="irBuscar()" />
+    <img src="add.png" alt="Adicionar Foto" onclick="irAdicionar()" />
+    <img src="whistle.png" alt="Convocações" onclick="irConvocacoes()" />
+    <img src="profile.png" alt="Perfil" onclick="irPerfil()" />
+  </div>
+
+  <script>
+    const convocados = [
+      { nome: "João Silva", posicao: "Goleiro", data: "15/04/2025" },
+      { nome: "Carlos Souza", posicao: "Zagueiro", data: "15/04/2025" },
+      { nome: "Pedro Lima", posicao: "Atacante", data: "15/04/2025" },
+      { nome: "Rafael Costa", posicao: "Meio-campo", data: "15/04/2025" }
+    ];
+
+    function carregarConvocacao() {
+      const container = document.getElementById("convocacaoContainer");
+      convocados.forEach(jogador => {
+        const html = `
+          <div class="convocado">
+            <h2>${jogador.nome}</h2>
+            <p>Posição: ${jogador.posicao}</p>
+            <p>Data da convocação: ${jogador.data}</p>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+      });
+    }
+
+    function irHome() {
+      window.location.href = "home.html";
+    }
+
+    function irBuscar() {
+      window.location.href = "buscar.html";
+    }
+
+    function irAdicionar() {
+      window.location.href = "add.html";
+    }
+
+    function irConvocacoes() {
+      window.location.href = "convocacoes.html";
+    }
+
+    function irPerfil() {
+      window.location.href = "perfil.html";
+    }
+
+    window.onload = carregarConvocacao;
+  </script>
+
+</body>
+</html>

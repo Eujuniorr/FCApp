@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comentários sobre Esportes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      font-size: 24px;
+      color: #333;
+    }
+    .comment-box {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+    .comment-box textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      resize: none;
+      height: 80px;
+      margin-bottom: 10px;
+      font-family: Arial, sans-serif;
+    }
+    .comment-box button {
+      padding: 10px;
+      background-color: #1DA1F2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .comment-box button:hover {
+      background-color: #0d95e8;
+    }
+    .comments-list {
+      margin-top: 20px;
+    }
+    .comment {
+      display: flex;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    .comment img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .comment-text {
+      max-width: 500px;
+    }
+    .comment-text p {
+      margin: 0;
+      font-size: 16px;
+    }
+    .comment-text .author {
+      font-weight: bold;
+      color: #333;
+    }
+    .comment-text .date {
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Comente sobre o Esporte</h2>
+    
+    <!-- Caixa de Comentário -->
+    <div class="comment-box">
+      <textarea id="comment-text" placeholder="Escreva seu comentário..."></textarea>
+      <button onclick="postComment()">Postar Comentário</button>
+    </div>
+
+    <!-- Lista de Comentários -->
+    <div class="comments-list" id="comments-list">
+      <!-- Comentários serão exibidos aqui -->
+    </div>
+  </div>
+
+  <script>
+    // Dados iniciais de comentários (comentários de outras pessoas)
+    const initialComments = [
+      {
+        user: "João",
+        date: "2025-04-15 08:30",
+        comment: "Adorei o desempenho da seleção ontem! Que jogada incrível!"
+      },
+      {
+        user: "Maria",
+        date: "2025-04-15 09:00",
+        comment: "O time está crescendo, mas precisa melhorar na defesa."
+      },
+      {
+        user: "Carlos",
+        date: "2025-04-14 22:15",
+        comment: "Não vi o jogo, mas ouvi falar que o gol foi espetacular!"
+      }
+    ];
+
+    // Função para exibir os comentários
+    function displayComments() {
+      const commentsList = document.getElementById("comments-list");
+      commentsList.innerHTML = ""; // Limpar comentários atuais
+
+      // Criar elementos para cada comentário
+      initialComments.forEach(comment => {
+        const commentContainer = document.createElement("div");
+        commentContainer.classList.add("comment");
+
+        const userProfilePic = document.createElement("img");
+        userProfilePic.src = "https://www.w3schools.com/w3images/avatar2.png"; // Imagem padrão
+        userProfilePic.alt = "Perfil";
+
+        const commentTextContainer = document.createElement("div");
+        commentTextContainer.classList.add("comment-text");
+
+        const authorName = document.createElement("p");
+        authorName.classList.add("author");
+        authorName.textContent = comment.user;
+
+        const commentDate = document.createElement("p");
+        commentDate.classList.add("date");
+        commentDate.textContent = comment.date;
+
+        const commentContent = document.createElement("p");
+        commentContent.textContent = comment.comment;
+
+        commentTextContainer.appendChild(authorName);
+        commentTextContainer.appendChild(commentDate);
+        commentTextContainer.appendChild(commentContent);
+
+        commentContainer.appendChild(userProfilePic);
+        commentContainer.appendChild(commentTextContainer);
+
+        commentsList.appendChild(commentContainer);
+      });
+    }
+
+    // Função para postar um novo comentário
+    function postComment() {
+      const commentText = document.getElementById("comment-text").value.trim();
+      if (commentText === "") {
+        alert("Por favor, escreva algo no comentário.");
+        return;
+      }
+
+      // Criar o novo comentário
+      const newComment = {
+        user: "Usuário", // Nome do usuário
+        date: new Date().toLocaleString(),
+        comment: commentText
+      };
+
+      // Adicionar o novo comentário à lista inicial
+      initialComments.unshift(newComment);
+
+      // Reexibir todos os comentários (novos e antigos)
+      displayComments();
+
+      // Limpar o campo de comentário
+      document.getElementById("comment-text").value = "";
+    }
+
+    // Exibir os comentários ao carregar a página
+    window.onload = displayComments;
+  </script>
+
+</body>
+</html>

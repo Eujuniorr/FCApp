@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FC Pacajus - Feed</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background-color: #fafafa; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+    header img { height: 40px; }
+
+    .stories {
+      display: flex;
+      overflow-x: auto;
+      background-color: #fff;
+      padding: 10px;
+    }
+    .story {
+      flex: 0 0 auto;
+      margin-right: 10px;
+      text-align: center;
+    }
+    .story img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #007BFF;
+      cursor: pointer;
+    }
+
+    .feed {
+      padding: 10px;
+      margin-bottom: 80px;
+    }
+    .post {
+      background-color: #fff;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .post img {
+      width: 100%;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+    .actions button {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .comment-section {
+      padding: 10px;
+    }
+    .comment-section input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .comments {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid #ddd;
+      padding: 10px 0;
+      z-index: 999;
+    }
+    .bottom-bar img {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+    }
+
+    .story-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .story-modal img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+    }
+
+    #fileInput {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="FC Pacajus" />
+    <strong>FC Pacajus</strong>
+  </header>
+
+  <!-- Stories -->
+  <div class="stories" id="stories">
+    <!-- Stories serão carregados aqui -->
+  </div>
+
+  <!-- Feed -->
+  <div class="feed" id="feed">
+    <!-- Posts serão carregados aqui -->
+  </div>
+
+  <!-- Barra inferior -->
+  <div class="bottom-bar">
+    <img src="home.png" alt="Início" onclick="irHome()" />
+    <img src="search.png" alt="Buscar" onclick="irBuscar()" />
+    <img src="add.png" alt="Adicionar Foto" onclick="adicionarFoto()" />
+    <img src="whistle.png" alt="Convocações" onclick="irConvocacoes()" />
+    <img src="profile.png" alt="Perfil" onclick="irPerfil()" />
+  </div>
+
+  <!-- Input oculto para upload de imagem -->
+  <input type="file" id="fileInput" accept="image/*" onchange="adicionarPost()" />
+<!-- Input oculto para upload de stories -->
+<input type="file" id="storyFileInput" accept="image/*,video/*" onchange="adicionarStory()" />
+
+  <!-- Modal de visualização de story -->
+  <div class="story-modal" id="story-modal" onclick="fecharStory()">
+    <img id="story-img" src="" alt="Story" />
+  </div>
+
+  <script>
+    let stories = [
+      { src: "story1.jpg", time: 10000 }, // Exibe por 10 segundos
+      { src: "story2.jpg", time: 10000 },
+      { src: "story3.jpg", time: 10000 }
+    ];
+    let currentStoryIndex = 0;
+
+    function iniciarStories() {
+      const storiesContainer = document.getElementById("stories");
+      storiesContainer.innerHTML = '';
+      stories.forEach((story, index) => {
+        const storyElement = document.createElement('div');
+        storyElement.classList.add('story');
+        storyElement.innerHTML = `<img src="${story.src}" alt="Story ${index + 1}" onclick="verStory('${story.src}')"/>`;
+        storiesContainer.appendChild(storyElement);
+      });
+
+      mostrarStory(currentStoryIndex);
+    }
+
+    function mostrarStory(index) {
+      if (index >= stories.length) return;
+      const storyModal = document.getElementById("story-modal");
+      const storyImg = document.getElementById("story-img");
+      storyImg.src = stories[index].src;
+      storyModal.style.display = 'flex';
+
+      setTimeout(() => {
+        currentStoryIndex++;
+        mostrarStory(currentStoryIndex);
+      }, stories[index].time);
+    }
+
+    function verStory(src) {
+      const storyModal = document.getElementById("story-modal");
+      const storyImg = document.getElementById("story-img");
+      storyImg.src = src;
+      storyModal.style.display = 'flex';
+    }
+
+    function fecharStory() {
+      document.getElementById("story-modal").style.display = 'none';
+    }
+
+    // Ação do botão adicionar imagem
+    function adicionarFoto() {
+      document.getElementById('fileInput').click();
+    }
+// Ação para adicionar story
+function adicionarStory() {
+  const input = document.getElementById('storyFileInput');
+  const file = input.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const mediaData = e.target.result;
+    const story = {
+      src: mediaData,
+      type: file.type.startsWith("video") ? "video" : "image",
+      time: 10000
+    };
+
+    let savedStories = JSON.parse(localStorage.getItem("stories") || "[]");
+    savedStories.unshift(story);
+    localStorage.setItem("stories", JSON.stringify(savedStories));
+    iniciarStories();
+  };
+  reader.readAsDataURL(file);
+}
+
+    function adicionarPost() {
+      const input = document.getElementById('fileInput');
+      const file = input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imgData = e.target.result;
+        const id = 'post-' + Date.now();
+
+        const novoPost = {
+          id: id,
+          imagem: imgData,
+          curtidas: 0,
+          comentarios: []
+        };
+
+        const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+        posts.unshift(novoPost);
+        localStorage.setItem("posts", JSON.stringify(posts));
+        carregarPosts();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function carregarPosts() {
+      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+      const feed = document.getElementById("feed");
+      feed.innerHTML = '';
+
+      posts.forEach(post => {
+        const html = `
+          <div class="post" id="${post.id}">
+            <img src="${post.imagem}" alt="Post" />
+            <div class="actions">
+              <button onclick="curtir('${post.id}')">Curtir (${post.curtidas})</button>
+              <button onclick="comentar('${post.id}')">Comentar</button>
+            </div>
+            <div class="comment-section">
+              <input type="text" id="input-${post.id}" placeholder="Escreva um comentário..." onkeydown="enviarComentario(event, '${post.id}')"/>
+              <div class="comments" id="comentarios-${post.id}">
+                ${post.comentarios.map(c => `<p>${c}</p>`).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+        feed.insertAdjacentHTML("beforeend", html);
+      });
+    }
+
+    function curtir(postId) {
+      let posts = JSON.parse(localStorage.getItem("posts") || "[]");
+      const index = posts.findIndex(p => p.id === postId);
+      if (index !== -1) {
+        posts[index].curtidas += 1;
+        localStorage.setItem("posts", JSON.stringify(posts));
+        carregarPosts();
+      }
+    }
+
+    function enviarComentario(event, postId) {
+      if (event.key === "Enter") {
+        const input = document.getElementById("input-" + postId);
+        const texto = input.value.trim();
+        if (texto) {
+          let posts = JSON.parse(localStorage.getItem("posts") || "[]");
+          const index = posts.findIndex(p => p.id === postId);
+          if (index !== -1) {
+            posts[index].comentarios.push(texto);
+            localStorage.setItem("posts", JSON.stringify(posts));
+            carregarPosts();
+          }
+        }
+      }
+    }
+
+    function comentar(postId) {
+      document.getElementById("input-" + postId).focus();
+    }
+  function irHome() {
+    window.location.href = "home.html";
+  }
+
+  function irBuscar() {
+    window.location.href = "talk.html";
+  }
+
+  function irConvocacoes() {
+    window.location.href = "convocacao.html";
+  }
+
+  function irPerfil() {
+    window.location.href = "perfil.html";
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Conta - FC Pacajus</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .register-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: center;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #218838; }
+  </style>
+</head>
+<body>
+
+  <div class="register-container">
+    <h2>Criar Conta</h2>
+    <input type="text" id="new-user" placeholder="Novo Usuário">
+    <input type="password" id="new-pass" placeholder="Nova Senha">
+    <button onclick="createAccount()">Criar Conta</button>
+  </div>
+
+  <script>
+    function createAccount() {
+      const user = document.getElementById("new-user").value.trim();
+      const pass = document.getElementById("new-pass").value.trim();
+      let users = JSON.parse(localStorage.getItem("users")) || {};
+
+      if (!user || !pass) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      if (users[user]) {
+        alert("Este nome de usuário já existe.");
+        return;
+      }
+
+      users[user] = pass;
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("Conta criada com sucesso!");
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+</html>
